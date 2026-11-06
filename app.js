@@ -14,5 +14,4 @@ $('next').onclick=()=>{if(room%4===0&&hits<3){fresh();return}if(room===12){best=
 $('hint').onclick=()=>{const open=$('guide').hidden;$('guide').hidden=!open;$('hint').textContent=open?'Hide step-by-step guide':'💡 Step-by-step guide';if(open)$('guide').innerHTML=guide()};
 function restart(){room=1;gems=0;stars=0;combo=0;$('victory').close();load()}
 $('new').onclick=()=>{if(gems===0||confirm('Start a new quest? This run’s gems and stars will reset.'))restart()};$('again').onclick=restart;for(const id of ['mode','digits'])$(id).onchange=()=>{attempts=0;fresh()};$('sound').onclick=()=>{sound=!sound;$('sound').textContent=sound?'♫ Sound on':'♫ Sound off';$('sound').setAttribute('aria-pressed',String(sound));tone(true)};
-let installEvent;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvent=e;$('install').hidden=false});$('install').onclick=async()=>{if(installEvent){await installEvent.prompt();installEvent=null;$('install').hidden=true}};
-if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});load();
+if('serviceWorker'in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));}load();
